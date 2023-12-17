@@ -19,8 +19,9 @@ The main goal of this is to create real enterprise vehicle, it is more of an add
 # INSTALLATION SETTINGS
 1 - Open the 'vehicleJob.sql' file</br>
 2-  Paste the content of this file in your database (this script will create the 'Job' column in your player_vehicles table)</br>
-3 - Go to qb-garages/client/main.lua and find the followed function : 'MenuGarage(type, garage, indexgarage)'</br>
+3 - Go to qb-garages/client/main.lua and find the followed function : ```MenuGarage(type, garage, indexgarage)``` </br>
 4 - Replace this entire function with this new one :</br>
+```
 local function MenuGarage(type, garage, indexgarage)
     local header
     local leave
@@ -31,7 +32,7 @@ local function MenuGarage(type, garage, indexgarage)
         header = Lang:t("menu.header." .. type .. "_" .. garage.vehicle, { value = garage.label })
         leave = Lang:t("menu.leave." .. garage.vehicle)
     end
-
+    
     local optionMenu = 
     {
        {
@@ -88,19 +89,24 @@ local function MenuGarage(type, garage, indexgarage)
 
     exports['qb-menu']:openMenu(optionMenu)
 end
-
+```
 It will create a new menu option table in the depot garage
 
-5- Go to qb-garages/server/main.lua and find the followed callback: 'QBCore.Functions.CreateCallback("qb-garage:server:GetGarageVehicles", function(source, cb, garage, type, category)'</br>
+5- Go to qb-garages/server/main.lua and find the followed callback: ```QBCore.Functions.CreateCallback("qb-garage:server:GetGarageVehicles", function(source, cb, garage, type, category)``` </br>
 6 - Find the line where it is written this:
+```
 MySQL.query('SELECT * FROM player_vehicles WHERE citizenid = ? AND (state = ?)', {pData.PlayerData.citizenid, 0}, function(result)
+```
 
 and replace it with this one
+```
 MySQL.query('SELECT * FROM player_vehicles WHERE job IS NULL AND citizenid = ? AND state = ? or state = ? ', {pData.PlayerData.citizenid, 0 , 2}, function(result)
-
+```
 
 7 - Go to your server.cfg file and ensure the 'V-VehicleJob' folder after all the other ressources</br>
 
+# CHECKOUT MY OTHER STUFFS</br>
+https://cityv-resources.tebex.io/
 
 # LANGUAGE SETTINGS</br>
 8-> If you want to switch the language of  the resource to english, then go to the 'fxmanifest.lua' file and change 'locales/fr.lua' to 'locales/en.lua'</br>
