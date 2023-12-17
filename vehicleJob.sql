@@ -1,0 +1,1 @@
+ALTER TABLE `player_vehicles` ADD `job` VARCHAR(100) NULL AFTER `lock`; 
